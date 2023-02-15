@@ -7,16 +7,16 @@ import unittest
 from contact import Contact
 
 
-class UntitledTestCase(unittest.TestCase):
+class TestAddContact(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(30)
 
-    def test_untitled_test_case(self):
+    def test_add_contact(self):
         wd = self.wd
 
         self.open_home_page(wd)
-        self.login(wd)
+        self.login(wd, "admin", "secret")
         self.init_contact_creation(wd)
         self.create_contact(wd, Contact(firstname="Jack", lastname="Daniels", nickname="JD", company="Whiskey",
                                         address="Scotland", home="999-999-99-99", work="777-777-77-77",
@@ -60,13 +60,13 @@ class UntitledTestCase(unittest.TestCase):
     def init_contact_creation(self, wd):
         wd.find_element(By.LINK_TEXT, "add new").click()
 
-    def login(self, wd):
+    def login(self, wd, username, password):
         wd.find_element(By.NAME, "user").click()
         wd.find_element(By.NAME, "user").clear()
-        wd.find_element(By.NAME, "user").send_keys("admin")
+        wd.find_element(By.NAME, "user").send_keys(username)
         wd.find_element(By.NAME, "pass").click()
         wd.find_element(By.NAME, "pass").clear()
-        wd.find_element(By.NAME, "pass").send_keys("secret")
+        wd.find_element(By.NAME, "pass").send_keys(password)
         wd.find_element(By.XPATH, "//input[@value='Login']").click()
 
     def open_home_page(self, wd):
