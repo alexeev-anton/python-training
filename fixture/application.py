@@ -19,7 +19,7 @@ class Application:
 
     def return_to_homepage(self):
         wd = self.wd
-        wd.find_element(By.LINK_TEXT, "home page").click()
+        wd.find_element(By.XPATH, "//a[normalize-space()='home']").click()
 
     def destroy(self):
         wd = self.wd
