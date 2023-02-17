@@ -1,94 +1,19 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
-import unittest
+import pytest
 
 from contact import Contact
+from application import Application
 
 
-class TestAddContact(unittest.TestCase):
-    def setUp(self):
-        self.wd = webdriver.Chrome()
-        self.wd.implicitly_wait(30)
-
-    def test_add_contact(self):
-        wd = self.wd
-
-        self.login(wd, "admin", "secret")
-        self.create_contact(wd, Contact(firstname="Jack", lastname="Daniels", nickname="JD", company="Whiskey",
-                                        address="Scotland", home="999-999-99-99", work="777-777-77-77",
-                                        email="jd@test.com"))
-        self.logout(wd)
-
-    def logout(self, wd):
-        wd.find_element(By.LINK_TEXT, "Logout").click()
-
-    def return_to_homepage(self, wd):
-        wd.find_element(By.LINK_TEXT, "home page").click()
-
-    def create_contact(self, wd, cont):
-        self.init_contact_creation(wd)
-        wd.find_element(By.NAME, "firstname").click()
-        wd.find_element(By.NAME, "firstname").clear()
-        wd.find_element(By.NAME, "firstname").send_keys(cont.firstname)
-        wd.find_element(By.NAME, "lastname").click()
-        wd.find_element(By.NAME, "lastname").clear()
-        wd.find_element(By.NAME, "lastname").send_keys(cont.lastname)
-        wd.find_element(By.NAME, "nickname").click()
-        wd.find_element(By.NAME, "nickname").clear()
-        wd.find_element(By.NAME, "nickname").send_keys(cont.nickname)
-        wd.find_element(By.NAME, "company").click()
-        wd.find_element(By.NAME, "company").clear()
-        wd.find_element(By.NAME, "company").send_keys(cont.company)
-        wd.find_element(By.NAME, "address").click()
-        wd.find_element(By.NAME, "address").clear()
-        wd.find_element(By.NAME, "address").send_keys(cont.address)
-        wd.find_element(By.NAME, "home").click()
-        wd.find_element(By.NAME, "home").clear()
-        wd.find_element(By.NAME, "home").send_keys(cont.home)
-        wd.find_element(By.NAME, "work").click()
-        wd.find_element(By.NAME, "work").clear()
-        wd.find_element(By.NAME, "work").send_keys(cont.work)
-        wd.find_element(By.NAME, "email").click()
-        wd.find_element(By.NAME, "email").clear()
-        wd.find_element(By.NAME, "email").send_keys(cont.email)
-        wd.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
-        self.return_to_homepage(wd)
-
-    def init_contact_creation(self, wd):
-        wd.find_element(By.LINK_TEXT, "add new").click()
-
-    def login(self, wd, username, password):
-        self.open_home_page(wd)
-        wd.find_element(By.NAME, "user").click()
-        wd.find_element(By.NAME, "user").clear()
-        wd.find_element(By.NAME, "user").send_keys(username)
-        wd.find_element(By.NAME, "pass").click()
-        wd.find_element(By.NAME, "pass").clear()
-        wd.find_element(By.NAME, "pass").send_keys(password)
-        wd.find_element(By.XPATH, "//input[@value='Login']").click()
-
-    def open_home_page(self, wd):
-        wd.get("http://localhost/addressbook/")
-
-    def is_element_present(self, how, what):
-        try:
-            self.wd.find_element(by=how, value=what)
-        except NoSuchElementException as e:
-            return False
-        return True
-
-    def is_alert_present(self):
-        try:
-            self.wd.switch_to_alert()
-        except NoAlertPresentException as e:
-            return False
-        return True
-
-    def tearDown(self):
-        self.wd.quit()
+@pytest.fixture()
+def app(request):
+    fixture = Application()
+    request.addfinalizer(fixture.destroy)
+    return fixture
 
 
-if __name__ == "__main__":
-    unittest.main()
+def test_add_contact(app):
+    app.login("admin", "secret")
+    app.create_contact(Contact(firstname="Jack", lastname="Daniels", nickname="JD", company="Whiskey",
+                               address="Scotland", home="999-999-99-99", work="777-777-77-77",
+                               email="jd@test.com"))
+    app.logout()
