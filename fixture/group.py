@@ -32,6 +32,13 @@ class GroupHelper:
         wd.find_element(By.NAME, "delete").click()
         self.return_to_groups_page()
 
+    def edit_group_create_if_missing(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        groups_count = wd.find_elements(By.NAME, "selected[]").count()
+
+
+
     def return_to_groups_page(self):
         wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "group page").click()
