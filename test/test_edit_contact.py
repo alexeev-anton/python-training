@@ -1,7 +1,7 @@
 from model.contact import Contact
 
 
-def test_add_contact(app):
+def test_edit_contact(app):
     app.session.login("admin", "secret")
     app.contact.edit_contact_create_if_missing(
         Contact(firstname="Jack_updated", lastname="Daniels_updated", nickname="JD_updated", company="Whiskey_updated",
