@@ -1,7 +1,4 @@
-import pytest
-
 from model.group import Group
-from fixture.application import Application
 
 
 def test_add_group(app):

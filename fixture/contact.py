@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import *
 
+from model.contact import Contact
+
 
 class ContactHelper:
     def __init__(self, app):
@@ -12,6 +14,22 @@ class ContactHelper:
     def create_contact(self, cont):
         wd = self.app.wd
         self.init_contact_creation()
+        self.fill_contact_data(wd, cont, "submit")
+        self.app.return_to_homepage()
+
+    def edit_contact_create_if_missing(self, cont):
+        wd = self.app.wd
+        contacts_count = len(wd.find_elements(By.NAME, "selected[]"))
+        if contacts_count == 0:
+            self.create_contact(Contact(firstname="Jack", lastname="Daniels", nickname="JD", company="Whiskey",
+                                        address="Scotland", home="999-999-99-99", work="777-777-77-77",
+                                        email="jd@test.com"))
+
+        wd.find_element(By.XPATH, "//img[@title='Edit']").click()
+        self.fill_contact_data(wd, cont, "update")
+        self.app.return_to_homepage()
+
+    def fill_contact_data(self, wd, cont, flag):
         wd.find_element(By.NAME, "firstname").click()
         wd.find_element(By.NAME, "firstname").clear()
         wd.find_element(By.NAME, "firstname").send_keys(cont.firstname)
@@ -36,8 +54,10 @@ class ContactHelper:
         wd.find_element(By.NAME, "email").click()
         wd.find_element(By.NAME, "email").clear()
         wd.find_element(By.NAME, "email").send_keys(cont.email)
-        wd.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
-        self.app.return_to_homepage()
+        if flag == "submit":
+            wd.find_element(By.NAME, "submit").click()
+        if flag == "update":
+            wd.find_element(By.NAME, "update").click()
 
     def delete_first_contact(self):
         wd = self.app.wd
