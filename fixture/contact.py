@@ -30,34 +30,25 @@ class ContactHelper:
         self.app.return_to_homepage()
 
     def fill_contact_data(self, wd, cont, flag):
-        wd.find_element(By.NAME, "firstname").click()
-        wd.find_element(By.NAME, "firstname").clear()
-        wd.find_element(By.NAME, "firstname").send_keys(cont.firstname)
-        wd.find_element(By.NAME, "lastname").click()
-        wd.find_element(By.NAME, "lastname").clear()
-        wd.find_element(By.NAME, "lastname").send_keys(cont.lastname)
-        wd.find_element(By.NAME, "nickname").click()
-        wd.find_element(By.NAME, "nickname").clear()
-        wd.find_element(By.NAME, "nickname").send_keys(cont.nickname)
-        wd.find_element(By.NAME, "company").click()
-        wd.find_element(By.NAME, "company").clear()
-        wd.find_element(By.NAME, "company").send_keys(cont.company)
-        wd.find_element(By.NAME, "address").click()
-        wd.find_element(By.NAME, "address").clear()
-        wd.find_element(By.NAME, "address").send_keys(cont.address)
-        wd.find_element(By.NAME, "home").click()
-        wd.find_element(By.NAME, "home").clear()
-        wd.find_element(By.NAME, "home").send_keys(cont.home)
-        wd.find_element(By.NAME, "work").click()
-        wd.find_element(By.NAME, "work").clear()
-        wd.find_element(By.NAME, "work").send_keys(cont.work)
-        wd.find_element(By.NAME, "email").click()
-        wd.find_element(By.NAME, "email").clear()
-        wd.find_element(By.NAME, "email").send_keys(cont.email)
+        self.fill_field_value("firstname", cont.firstname)
+        self.fill_field_value("lastname", cont.lastname)
+        self.fill_field_value("nickname", cont.nickname)
+        self.fill_field_value("company", cont.company)
+        self.fill_field_value("address", cont.address)
+        self.fill_field_value("home", cont.home)
+        self.fill_field_value("work", cont.work)
+        self.fill_field_value("email", cont.email)
         if flag == "submit":
             wd.find_element(By.NAME, "submit").click()
         if flag == "update":
             wd.find_element(By.NAME, "update").click()
+
+    def fill_field_value(self, field, value):
+        wd = self.app.wd
+        if value is not None:
+            wd.find_element(By.NAME, field).click()
+            wd.find_element(By.NAME, field).clear()
+            wd.find_element(By.NAME, field).send_keys(value)
 
     def delete_first_contact(self):
         wd = self.app.wd

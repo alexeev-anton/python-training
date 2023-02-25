@@ -34,20 +34,21 @@ class GroupHelper:
         self.fill_group_data(wd, group, "update")
 
     def fill_group_data(self, wd, group, flag):
-        wd.find_element(By.NAME, "group_name").click()
-        wd.find_element(By.NAME, "group_name").clear()
-        wd.find_element(By.NAME, "group_name").send_keys(group.name)
-        wd.find_element(By.NAME, "group_header").click()
-        wd.find_element(By.NAME, "group_header").clear()
-        wd.find_element(By.NAME, "group_header").send_keys(group.header)
-        wd.find_element(By.NAME, "group_footer").click()
-        wd.find_element(By.NAME, "group_footer").clear()
-        wd.find_element(By.NAME, "group_footer").send_keys(group.footer)
+        self.fill_field_value("group_name", group.name)
+        self.fill_field_value("group_header", group.header)
+        self.fill_field_value("group_footer", group.footer)
         if flag == "submit":
             wd.find_element(By.NAME, "submit").click()
         if flag == "update":
             wd.find_element(By.NAME, "update").click()
         self.return_to_groups_page()
+
+    def fill_field_value(self, field, value):
+        wd = self.app.wd
+        if value is not None:
+            wd.find_element(By.NAME, field).click()
+            wd.find_element(By.NAME, field).clear()
+            wd.find_element(By.NAME, field).send_keys(value)
 
     def return_to_groups_page(self):
         wd = self.app.wd
