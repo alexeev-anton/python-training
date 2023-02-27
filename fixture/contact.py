@@ -13,12 +13,14 @@ class ContactHelper:
 
     def create_contact(self, cont):
         wd = self.app.wd
+        self.open_contacts_page()
         self.init_contact_creation()
         self.fill_contact_data(wd, cont, "submit")
         self.app.return_to_homepage()
 
     def edit_contact_create_if_missing(self, cont):
         wd = self.app.wd
+        self.open_contacts_page()
         contacts_count = len(wd.find_elements(By.NAME, "selected[]"))
         if contacts_count == 0:
             self.create_contact(Contact(firstname="Jack", lastname="Daniels", nickname="JD", company="Whiskey",
@@ -52,7 +54,12 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
+        self.open_contacts_page()
         wd.find_element(By.NAME, "selected[]").click()
         wd.find_element(By.XPATH, "// input[ @ value = 'Delete']").click()
         wd.switch_to.alert.accept()
         self.app.return_to_homepage()
+
+    def open_contacts_page(self):
+        wd = self.app.wd
+        wd.find_element(By.XPATH, "//a[normalize-space()='home']").click()
