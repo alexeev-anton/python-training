@@ -62,7 +62,8 @@ class ContactHelper:
 
     def open_contacts_page(self):
         wd = self.app.wd
-        wd.find_element(By.XPATH, "//a[normalize-space()='home']").click()
+        if len(wd.find_elements(By.XPATH, "//img[@title='vCard']")) == 0:
+            wd.find_element(By.XPATH, "//a[normalize-space()='home']").click()
 
     def contacts_count(self):
         wd = self.app.wd

@@ -8,7 +8,7 @@ from fixture.contact import ContactHelper
 class Application:
     def __init__(self):
         self.wd = webdriver.Chrome()
-        self.wd.implicitly_wait(2)
+        # self.wd.implicitly_wait(5)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
@@ -19,7 +19,9 @@ class Application:
 
     def return_to_homepage(self):
         wd = self.wd
-        wd.find_element(By.XPATH, "//a[normalize-space()='home']").click()
+        if (len(wd.find_elements(By.XPATH, "//strong[normalize-space()='Select all']")) == 0 and
+                len(wd.find_elements(By.XPATH, "//select[@name='to_group']")) == 0):
+            wd.find_element(By.XPATH, "//a[normalize-space()='home']").click()
 
     def destroy(self):
         wd = self.wd
