@@ -18,15 +18,9 @@ class ContactHelper:
         self.fill_contact_data(wd, cont, "submit")
         self.app.return_to_homepage()
 
-    def edit_contact_create_if_missing(self, cont):
+    def edit_contact(self, cont):
         wd = self.app.wd
         self.open_contacts_page()
-        contacts_count = len(wd.find_elements(By.NAME, "selected[]"))
-        if contacts_count == 0:
-            self.create_contact(Contact(firstname="Jack", lastname="Daniels", nickname="JD", company="Whiskey",
-                                        address="Scotland", home="999-999-99-99", work="777-777-77-77",
-                                        email="jd@test.com"))
-
         wd.find_element(By.XPATH, "//img[@title='Edit']").click()
         self.fill_contact_data(wd, cont, "update")
         self.app.return_to_homepage()
@@ -40,17 +34,23 @@ class ContactHelper:
         self.fill_field_value("home", cont.home)
         self.fill_field_value("work", cont.work)
         self.fill_field_value("email", cont.email)
+        self.select_selector_value("//select[@name='new_group']", cont.group)
         if flag == "submit":
             wd.find_element(By.NAME, "submit").click()
         if flag == "update":
             wd.find_element(By.NAME, "update").click()
 
-    def fill_field_value(self, field, value):
+    def fill_field_value(self, field_id, value):
         wd = self.app.wd
         if value is not None:
-            wd.find_element(By.NAME, field).click()
-            wd.find_element(By.NAME, field).clear()
-            wd.find_element(By.NAME, field).send_keys(value)
+            wd.find_element(By.NAME, field_id).click()
+            wd.find_element(By.NAME, field_id).clear()
+            wd.find_element(By.NAME, field_id).send_keys(value)
+
+    def select_selector_value(self, selector_id, value):
+        wd = self.app.wd
+        if value is not None:
+            wd.find_element(By.XPATH, selector_id).send_keys(value);
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -63,3 +63,8 @@ class ContactHelper:
     def open_contacts_page(self):
         wd = self.app.wd
         wd.find_element(By.XPATH, "//a[normalize-space()='home']").click()
+
+    def contacts_count(self):
+        wd = self.app.wd
+        self.open_contacts_page()
+        return len(wd.find_elements(By.NAME, "selected[]"))

@@ -23,12 +23,9 @@ class GroupHelper:
         wd.find_element(By.NAME, "delete").click()
         self.return_to_groups_page()
 
-    def edit_group_create_if_missing(self, group):
+    def edit_group(self, group):
         wd = self.app.wd
         self.open_groups_page()
-        groups_count = len(wd.find_elements(By.NAME, "selected[]"))
-        if groups_count == 0:
-            self.create(Group(name="test", header="test", footer="test"))
         wd.find_element(By.NAME, "selected[]").click()
         wd.find_element(By.NAME, "edit").click()
         self.fill_group_data(wd, group, "update")
@@ -43,13 +40,18 @@ class GroupHelper:
             wd.find_element(By.NAME, "update").click()
         self.return_to_groups_page()
 
-    def fill_field_value(self, field, value):
+    def fill_field_value(self, field_id, value):
         wd = self.app.wd
         if value is not None:
-            wd.find_element(By.NAME, field).click()
-            wd.find_element(By.NAME, field).clear()
-            wd.find_element(By.NAME, field).send_keys(value)
+            wd.find_element(By.NAME, field_id).click()
+            wd.find_element(By.NAME, field_id).clear()
+            wd.find_element(By.NAME, field_id).send_keys(value)
 
     def return_to_groups_page(self):
         wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "group page").click()
+
+    def groups_count(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        return len(wd.find_elements(By.NAME, "selected[]"))
