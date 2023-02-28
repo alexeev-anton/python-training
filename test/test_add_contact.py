@@ -1,7 +1,5 @@
-import pytest
-
 from model.contact import Contact
-from fixture.application import Application
+from model.group import Group
 
 
 def test_add_contact(app):
