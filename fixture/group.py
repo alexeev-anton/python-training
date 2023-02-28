@@ -1,5 +1,4 @@
 from selenium.webdriver.common.by import *
-from model.group import Group
 
 
 class GroupHelper:
@@ -56,3 +55,9 @@ class GroupHelper:
         wd = self.app.wd
         self.open_groups_page()
         return len(wd.find_elements(By.NAME, "selected[]"))
+
+    def check_group_name(self, group_name_to_check):
+        wd = self.app.wd
+        self.open_groups_page()
+        if group_name_to_check in wd.page_source:
+            return True
