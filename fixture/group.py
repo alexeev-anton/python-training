@@ -59,5 +59,12 @@ class GroupHelper:
     def check_group_name(self, group_name_to_check):
         wd = self.app.wd
         self.open_groups_page()
-        if group_name_to_check in wd.page_source:
-            return True
+        rows_count = len(wd.find_elements(By.CLASS_NAME, 'group'))
+        if rows_count > 0:
+            group_names = []
+            for i in range(rows_count):
+                row_index = str(i + 1)
+                group = wd.find_element(By.XPATH, "/html[1]/body[1]/div[1]/div[4]/form[1]/span[" + row_index + "]").text
+                group_names.append(group)
+            if group_name_to_check in group_names:
+                return True
