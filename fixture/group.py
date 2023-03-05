@@ -68,3 +68,13 @@ class GroupHelper:
                 group_names.append(group)
             if group_name_to_check in group_names:
                 return True
+
+    def get_groups_list(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        groups = []
+        for i in wd.find_elements(By.CSS_SELECTOR, "span.group"):
+            group_name = i.text
+            group_id = i.find_element(By.NAME, "selected[]").get_attribute("value")
+            groups.append(i)
+        return groups
