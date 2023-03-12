@@ -19,17 +19,20 @@ class GroupHelper:
         self.group_cache = None
 
     def delete_first_group(self):
+        self.delete_group_by_index(0)
+
+    def delete_group_by_index(self, index):
         wd = self.app.wd
         self.open_groups_page()
-        wd.find_element(By.NAME, "selected[]").click()
+        wd.find_elements(By.NAME, "selected[]")[index].click()
         wd.find_element(By.NAME, "delete").click()
         self.return_to_groups_page()
         self.group_cache = None
 
-    def edit_group(self, group):
+    def edit_group_by_index(self, group, index):
         wd = self.app.wd
         self.open_groups_page()
-        wd.find_element(By.NAME, "selected[]").click()
+        wd.find_elements(By.NAME, "selected[]")[index].click()
         wd.find_element(By.NAME, "edit").click()
         self.fill_group_data(wd, group, "update")
         self.group_cache = None
