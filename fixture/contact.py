@@ -52,7 +52,7 @@ class ContactHelper:
     def select_selector_value(self, selector_id, value):
         wd = self.app.wd
         if value is not None:
-            wd.find_element(By.XPATH, selector_id).send_keys(value);
+            wd.find_element(By.XPATH, selector_id).send_keys(value)
 
     def delete_contact_by_index(self, index):
         wd = self.app.wd
