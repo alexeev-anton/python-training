@@ -1,3 +1,5 @@
+import re
+
 from selenium.webdriver.common.by import *
 
 from model.contact import Contact
@@ -84,5 +86,20 @@ class ContactHelper:
                 contact_id = i.find_element(By.NAME, "selected[]").get_attribute("value")
                 contact_firstname = i.find_element(By.XPATH, "./td[3]").text
                 contact_lastname = i.find_element(By.XPATH, "./td[2]").text
-                self.contact_cache.append(Contact(id=contact_id, firstname=contact_firstname, lastname=contact_lastname))
+                contact_allphones = i.find_element(By.XPATH, "./td[6]").text.splitlines()
+                self.contact_cache.append(Contact(id=contact_id, firstname=contact_firstname, lastname=contact_lastname,
+                                                  home=contact_allphones[0], mobile=contact_allphones[1], work=contact_allphones[2]))
         return list(self.contact_cache)
+
+    def get_contacts_list_from_edit_page(self, index):
+        wd = self.app.wd
+        self.open_contacts_page()
+        wd.find_elements(By.XPATH, "//img[@title='Edit']")[index].click()
+        contact_id = wd.find_element(By.NAME, "id").get_attribute("value")
+        contact_firstname = wd.find_element(By.NAME, "firstname").get_attribute("value")
+        contact_lastname = wd.find_element(By.NAME, "lastname").get_attribute("value")
+        contact_home = wd.find_element(By.NAME, "home").get_attribute("value")
+        contact_mobile = wd.find_element(By.NAME, "mobile").get_attribute("value")
+        contact_work = wd.find_element(By.NAME, "work").get_attribute("value")
+        return Contact(id=contact_id, firstname=contact_firstname, lastname=contact_lastname,
+                       home=contact_home, mobile=contact_mobile, work=contact_work)
