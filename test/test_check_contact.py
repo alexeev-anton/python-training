@@ -23,5 +23,4 @@ def merge_phones(contact):
                                                                               [contact.home, contact.mobile, contact.work]))))
 
 def merge_emails(contact):
-    return "\n".join(filter(lambda a: a != "", map(lambda b: clear(b), filter(lambda c: c is not None,
-                                                                              [contact.email, contact.email2, contact.email3]))))
+    return "\n".join(filter(lambda a: a != "", filter(lambda b: b is not None, [contact.email, contact.email2, contact.email3])))
