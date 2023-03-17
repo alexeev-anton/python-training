@@ -84,9 +84,11 @@ class ContactHelper:
                 contact_id = i.find_element(By.NAME, "selected[]").get_attribute("value")
                 contact_firstname = i.find_element(By.XPATH, "./td[3]").text
                 contact_lastname = i.find_element(By.XPATH, "./td[2]").text
+                contact_address = i.find_element(By.XPATH, "./td[4]").text
                 contact_allphones = i.find_element(By.XPATH, "./td[6]").text
+                contact_allemails = i.find_element(By.XPATH, "./td[5]").text
                 self.contact_cache.append(Contact(id=contact_id, firstname=contact_firstname, lastname=contact_lastname,
-                                                  all_phones=contact_allphones))
+                                                  address=contact_address, all_phones=contact_allphones, all_emails=contact_allemails))
         return list(self.contact_cache)
 
     def get_contacts_list_from_edit_page(self, index):
@@ -96,8 +98,13 @@ class ContactHelper:
         contact_id = wd.find_element(By.NAME, "id").get_attribute("value")
         contact_firstname = wd.find_element(By.NAME, "firstname").get_attribute("value")
         contact_lastname = wd.find_element(By.NAME, "lastname").get_attribute("value")
+        contact_address = wd.find_element(By.NAME, "address").get_attribute("value")
         contact_home = wd.find_element(By.NAME, "home").get_attribute("value")
         contact_mobile = wd.find_element(By.NAME, "mobile").get_attribute("value")
         contact_work = wd.find_element(By.NAME, "work").get_attribute("value")
+        contact_email = wd.find_element(By.NAME, "email").get_attribute("value")
+        contact_email2 = wd.find_element(By.NAME, "email2").get_attribute("value")
+        contact_email3 = wd.find_element(By.NAME, "email3").get_attribute("value")
         return Contact(id=contact_id, firstname=contact_firstname, lastname=contact_lastname,
-                       home=contact_home, mobile=contact_mobile, work=contact_work)
+                       address=contact_address, home=contact_home, mobile=contact_mobile, work=contact_work,
+                       email=contact_email, email2=contact_email2, email3=contact_email3)

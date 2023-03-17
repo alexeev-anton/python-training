@@ -2,8 +2,9 @@ from sys import maxsize
 
 
 class Contact:
-    def __init__(self, firstname=None, lastname=None, nickname=None, company=None, address=None, home=None, mobile = None,
-                 work=None, email=None, group=None, id=None, all_phones=None):
+    def __init__(self, id=None, firstname=None, lastname=None, nickname=None, company=None, address=None, home=None, mobile = None,
+                 work=None, email=None, email2=None, email3=None, group=None, all_phones=None, all_emails=None):
+        self.id = id
         self.firstname = firstname
         self.lastname = lastname
         self.nickname = nickname
@@ -13,9 +14,11 @@ class Contact:
         self.mobile = mobile
         self.work = work
         self.email = email
+        self.email2 = email2
+        self.email3 = email3
         self.group = group
-        self.id = id
         self.all_phones = all_phones
+        self.all_emails = all_emails
 
     def __repr__(self):
         return "%s:%s:%s" % (self.id, self.firstname, self.lastname)
