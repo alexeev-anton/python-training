@@ -1,7 +1,5 @@
 import re
-
 from selenium.webdriver.common.by import *
-
 from model.contact import Contact
 
 
