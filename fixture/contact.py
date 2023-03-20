@@ -34,8 +34,11 @@ class ContactHelper:
         self.fill_field_value("company", cont.company)
         self.fill_field_value("address", cont.address)
         self.fill_field_value("home", cont.home)
+        self.fill_field_value("mobile", cont.mobile)
         self.fill_field_value("work", cont.work)
         self.fill_field_value("email", cont.email)
+        self.fill_field_value("email2", cont.email2)
+        self.fill_field_value("email3", cont.email3)
         self.select_selector_value("//select[@name='new_group']", cont.group)
         if flag == "submit":
             wd.find_element(By.NAME, "submit").click()
