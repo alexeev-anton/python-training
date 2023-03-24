@@ -7,7 +7,7 @@ from model.group import Group
 
 
 def rand_sting(prefix=None, maxlength=None, case=None):
-    symbols = string.ascii_letters + string.digits + (" " * 3)
+    symbols = string.ascii_letters + string.digits + (" ")
     digits = string.digits + ("-" * 3)
     letters = string.ascii_letters
     if case == "names":
