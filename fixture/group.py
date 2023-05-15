@@ -29,10 +29,26 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
+    def delete_group_by_id(self, id):
+        wd = self.app.wd
+        self.open_groups_page()
+        wd.find_element(By.CSS_SELECTOR, "input[value='%s']" % id).click()
+        wd.find_element(By.NAME, "delete").click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
     def edit_group_by_index(self, group, index):
         wd = self.app.wd
         self.open_groups_page()
         wd.find_elements(By.NAME, "selected[]")[index].click()
+        wd.find_element(By.NAME, "edit").click()
+        self.fill_group_data(wd, group, "update")
+        self.group_cache = None
+
+    def edit_group_by_id(self, group, id):
+        wd = self.app.wd
+        self.open_groups_page()
+        wd.find_element(By.CSS_SELECTOR, "input[value='%s']" % id).click()
         wd.find_element(By.NAME, "edit").click()
         self.fill_group_data(wd, group, "update")
         self.group_cache = None
